@@ -54,3 +54,10 @@ Logowanie Discord wymaga dodania `http://localhost:5173/auth/discord/callback` o
 - Karta osoby: dane, licencje, status „poszukiwany”, pojazdy i historia wpisów (notatka, mandat, zatrzymanie, poszukiwanie).
 - Wpis można wypełnić z zapisanego dokumentu — protokół zatrzymania przenosi zarzuty, odsiadkę, grzywnę i numer dokumentu.
 - Kartoteka jest wspólna dla wszystkich z dostępem; wpis usuwa tylko autor albo właściciel panelu.
+
+## Przekazanie do JusticeOS
+
+W „Moich dokumentach” przy protokołach, raportach i wniosku o nakaz jest przycisk **Do JusticeOS** — generuje kod `POS1.…`.
+Prokurator wkleja go w JusticeOS przyciskiem **Importuj z PoliceOS** (akt oskarżenia, nakaz, wyrok, list gończy…):
+wypełniają się dane osoby, zarzuty, data i miejsce czynu, opis zdarzenia, dowody i odnośnik do dokumentu LSPD.
+Format kodu: `src/lib/justiceTransfer.ts` (PoliceOS) ↔ `src/lib/policeImport.ts` (JusticeOS) — zmieniaj oba naraz.

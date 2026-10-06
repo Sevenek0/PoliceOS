@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '../components/Icon';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { DocumentPreviewA4 } from '../components/documents/DocumentPreviewA4';
+import { TransferModal } from '../components/documents/TransferModal';
+import { TRANSFERABLE, encodeTransfer } from '../lib/justiceTransfer';
 import { useDocumentHistory, useMyDocuments } from '../store/useDocumentHistory';
 import { useDiscordAuth } from '../store/useDiscordAuth';
 import { useOfficerProfile } from '../store/useOfficerProfile';
@@ -69,6 +71,7 @@ export function DocumentHistoryPage() {
   const [selectedId, setSelectedId] = useState<string | null>(documents[0]?.id ?? null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
+  const [transferCode, setTransferCode] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -154,6 +157,15 @@ export function DocumentHistoryPage() {
                 <div className="text-xs text-ink-faint mt-0.5">Zapisano {formatSavedAt(selected.savedAt)}</div>
               </div>
               <div className="flex gap-2">
+                {TRANSFERABLE.has(selected.generatorId) && (
+                  <button
+                    type="button"
+                    onClick={() => setTransferCode(encodeTransfer(selected))}
+                    className="flex items-center gap-1.5 border border-border text-xs font-medium rounded-lg px-3 py-1.5 hover:bg-surface-2 transition-colors"
+                  >
+                    <Icon name="send" size={14} /> Do JusticeOS
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => setPendingDeleteId(selected.id)}
@@ -194,6 +206,10 @@ export function DocumentHistoryPage() {
           <div className="h-full flex items-center justify-center text-ink-faint text-sm">Wybierz dokument z listy.</div>
         )}
       </div>
+
+      {transferCode && selected && (
+        <TransferModal code={transferCode} docNumber={selected.docNumber} onClose={() => setTransferCode(null)} />
+      )}
 
       {pendingDeleteId && (
         <ConfirmModal
