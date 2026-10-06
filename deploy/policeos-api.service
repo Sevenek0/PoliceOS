@@ -1,0 +1,16 @@
+[Unit]
+Description=PoliceOS API (dokumenty + dostęp)
+After=network.target mariadb.service
+Wants=mariadb.service
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/PoliceOS/server
+EnvironmentFile=/etc/policeos-api.env
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,120 @@
+/* ---------- Fonts ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@import "tailwindcss";
+
+/* ---------- Design tokens (dark-first) ---------- */
+:root{
+  --bg: #0A0B10;
+  --bg-2: #0D0F16;
+  --surface: #12141C;
+  --surface-2: #191C26;
+  --surface-3: #232733;
+  --ink: #F1F1F7;
+  --ink-muted: #9498AC;
+  --ink-faint: #62687C;
+  --border: #22252F;
+  /* Domyślny akcent: granat „LSPD” */
+  --accent: #4A78C8;
+  --accent-2: #7FA3E0;
+  --accent-ink: #8DB0EC;
+  --accent-soft: #141F36;
+  --danger: #F0605A;
+  --danger-soft: #3A1E1E;
+  --warning: #F5A623;
+  --warning-soft: #3A2C10;
+  --success: #34D399;
+  --success-soft: #12312A;
+
+  --brand: #1F3F7A;
+  --brand-ink: #2E3135;
+}
+
+:root[data-theme="light"]{
+  --bg: #F5F3EF;
+  --bg-2: #EFECE6;
+  --surface: #FFFFFF;
+  --surface-2: #F4F1EC;
+  --surface-3: #E9E4DC;
+  --ink: #1B1812;
+  --ink-muted: #665F54;
+  --ink-faint: #9A9285;
+  --border: #E4DED4;
+  --accent: #2B4C8C;
+  --accent-2: #4A78C8;
+  --accent-ink: #243F75;
+  --accent-soft: #E4EAF6;
+  --danger: #D6473F;
+  --danger-soft: #FBE6E4;
+  --warning: #C1810F;
+  --warning-soft: #FBEEDA;
+  --success: #1E9E70;
+  --success-soft: #DEF5EA;
+}
+
+:root[data-accent="brown"]{ --accent:#B08A5B; --accent-2:#D9B77E; --accent-ink:#D4AE7C; --accent-soft:#2A2116; }
+:root[data-theme="light"][data-accent="brown"]{ --accent:#8C6A43; --accent-ink:#7A5A34; --accent-soft:#F3EADD; }
+:root[data-accent="gold"]{ --accent:#C9A227; --accent-2:#E6C65A; --accent-ink:#E0BD4F; --accent-soft:#2E2610; }
+:root[data-theme="light"][data-accent="gold"]{ --accent:#9C7C14; --accent-ink:#806510; --accent-soft:#F7EFD4; }
+:root[data-accent="burgundy"]{ --accent:#B8475E; --accent-2:#DB7A8D; --accent-ink:#E08597; --accent-soft:#33151C; }
+:root[data-theme="light"][data-accent="burgundy"]{ --accent:#8E2C40; --accent-ink:#7A2536; --accent-soft:#F7E3E7; }
+:root[data-accent="green"]{ --accent:#3E9B72; --accent-2:#6CC49B; --accent-ink:#6CC49B; --accent-soft:#122A20; }
+:root[data-theme="light"][data-accent="green"]{ --accent:#2A7456; --accent-ink:#235F47; --accent-soft:#E0F2EA; }
+
+@theme {
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-brand: "Inter Tight", "Inter", "Segoe UI", system-ui, sans-serif;
+
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+}
+
+html, body, #root{ height: 100%; }
+body{
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+* { box-sizing: border-box; }
+::-webkit-scrollbar{ width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb{ background: var(--surface-3); border-radius: 6px; }
+::-webkit-scrollbar-track{ background: transparent; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* A4 sheet for document preview */
+.a4-sheet{
+  width: 210mm;
+  min-height: 297mm;
+  background: #ffffff;
+  color: #16181f;
+  box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 30px 60px -30px rgba(0,0,0,.7);
+}
+@media (max-width: 1100px){
+  .a4-sheet{ width: 100%; min-height: auto; }
+}
