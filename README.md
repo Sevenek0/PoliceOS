@@ -2,7 +2,7 @@
 
 Panel narzędziowy dla frakcji policyjnej na serwerze roleplay (FiveM): generatory raportów i protokołów
 (interwencja, zatrzymanie, mandat, przeszukanie, pościg, kolizja, użycie siły…), kodeks karny z taryfikatorem,
-procedury policyjne, kody radiowe oraz kalkulatory (zatrzymanie z taryfikatora, mandat za prędkość, czas odsiadki).
+procedury policyjne, kody radiowe, kartotekę MDT (osoby, pojazdy, historia) oraz kalkulatory (zatrzymanie z taryfikatora, mandat za prędkość, czas odsiadki).
 
 > **Uwaga:** to narzędzie fabularne (RP). Wszystkie dokumenty, przepisy i procedury są fikcyjne i **nie stanowią
 > rzeczywistej dokumentacji**.
@@ -14,7 +14,7 @@ Taryfikator (`src/data/penalCode.ts`) jest kopią z JusticeOS — zmieniając pr
 
 - React 19 + TypeScript + Vite, Tailwind CSS v4, react-router-dom, Zustand (persist)
 - html2canvas + jsPDF (eksport PDF/PNG), lucide-react (ikony)
-- API: Node (`server/index.js`) + MariaDB — dokumenty użytkowników i system zaproszeń
+- API: Node (`server/index.js`, `server/mdt.js`) + MariaDB — dokumenty, zaproszenia i kartoteka MDT
 
 ## Uruchomienie lokalne
 
@@ -39,10 +39,18 @@ Logowanie Discord wymaga dodania `http://localhost:5173/auth/discord/callback` o
 - Strona: nginx na porcie 8082 (`deploy/nginx-policeos.conf`), pliki w `/var/www/policeos`.
 - API: usługa systemd `policeos-api` (`deploy/policeos-api.service`) na `127.0.0.1:3003`, konfiguracja w `/etc/policeos-api.env`
   (`DB_USER`, `DB_PASSWORD`, `DB_NAME=policeos`, `PORT=3003`, `OWNER_DISCORD_ID`).
-- Baza: MariaDB `policeos` (`server/schema.sql`) — tabele `documents`, `access`, `invites`; użytkownik API ma tylko SELECT/INSERT/DELETE.
+- Baza: MariaDB `policeos` (`server/schema.sql`) — tabele `documents`, `access`, `invites` oraz `mdt_persons`, `mdt_vehicles`, `mdt_records`.
+  Użytkownik API ma SELECT/INSERT/DELETE na całej bazie i dodatkowo UPDATE na kartotece (nadaj raz, po pierwszym `schema.sql`):
+
+  ```sql
+  GRANT UPDATE ON policeos.mdt_persons TO '<user>'@'localhost';
+  GRANT UPDATE ON policeos.mdt_vehicles TO '<user>'@'localhost';
+  ```
 - Aktualizacja: `~/deploy-policeos.sh` (kopia w `deploy/`).
 
-## Do zrobienia
+## Kartoteka (MDT)
 
-- Kartoteka osób i pojazdów (MDT) — wyszukiwanie, notatki, poszukiwania.
-- Przekazywanie protokołów do JusticeOS (np. zatrzymanie → akt oskarżenia).
+- `/panel/kartoteka` — wyszukiwarka osób (imię, SSN, telefon) i pojazdów (tablica, model, właściciel), lista poszukiwanych i skradzionych pojazdów.
+- Karta osoby: dane, licencje, status „poszukiwany”, pojazdy i historia wpisów (notatka, mandat, zatrzymanie, poszukiwanie).
+- Wpis można wypełnić z zapisanego dokumentu — protokół zatrzymania przenosi zarzuty, odsiadkę, grzywnę i numer dokumentu.
+- Kartoteka jest wspólna dla wszystkich z dostępem; wpis usuwa tylko autor albo właściciel panelu.

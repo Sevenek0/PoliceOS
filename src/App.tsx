@@ -10,6 +10,9 @@ import { CalculatorPage } from './pages/CalculatorPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { DocumentHistoryPage } from './pages/DocumentHistoryPage';
 import { DiscordCallbackPage } from './pages/DiscordCallbackPage';
+import { MdtPage } from './pages/MdtPage';
+import { MdtPersonPage } from './pages/MdtPersonPage';
+import { MdtVehiclePage } from './pages/MdtVehiclePage';
 
 function App() {
   useThemeSync();
@@ -26,6 +29,9 @@ function App() {
           <Route path="kalkulatory/:id" element={<CalculatorPage />} />
           <Route path="ustawienia" element={<SettingsPage />} />
           <Route path="dokumenty" element={<DocumentHistoryPage />} />
+          <Route path="kartoteka" element={<MdtPage />} />
+          <Route path="kartoteka/osoba/:id" element={<MdtPersonPage />} />
+          <Route path="kartoteka/pojazd/:id" element={<MdtVehiclePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

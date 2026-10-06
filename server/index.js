@@ -10,8 +10,9 @@
 //   /api/access    — check | redeem                  (każdy zalogowany)
 //                    createInvite | myInvites | cancelInvite (wymaga dostępu)
 //                    adminOverview | adminGrant | adminRevoke | adminCancelInvite (tylko właściciel)
+//   /api/mdt       — kartoteka osób, pojazdów i wpisów (wymaga dostępu) — patrz mdt.js
 //
-// Użytkownik bazy potrzebuje tylko SELECT / INSERT / DELETE.
+// Użytkownik bazy potrzebuje SELECT / INSERT / DELETE oraz UPDATE na `mdt_persons` i `mdt_vehicles`.
 //
 // Konfiguracja przez zmienne środowiskowe (na serwerze: /etc/policeos-api.env):
 //   DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PORT, OWNER_DISCORD_ID
@@ -19,6 +20,7 @@
 import http from 'node:http';
 import crypto from 'node:crypto';
 import mysql from 'mysql2/promise';
+import { createMdtHandlers } from './mdt.js';
 
 const PORT = Number(process.env.PORT ?? 3003);
 const OWNER_DISCORD_ID = process.env.OWNER_DISCORD_ID ?? '';
@@ -333,9 +335,12 @@ async function handleAccess({ discordId, username }, body) {
 
 // ---------- HTTP ----------
 
+const { handleMdt } = createMdtHandlers({ pool, HttpError, isAuthorized, isOwner, str });
+
 const ROUTES = {
   '/api/documents': handleDocuments,
   '/api/access': handleAccess,
+  '/api/mdt': handleMdt,
 };
 
 // Bez tokenu Discorda — handler dostaje adres IP (do limitu prób) zamiast tożsamości.

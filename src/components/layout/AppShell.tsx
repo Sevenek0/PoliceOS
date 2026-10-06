@@ -25,7 +25,7 @@ function resolveTitle(pathname: string): string {
   }
   if (pathname.startsWith('/panel/ustawienia')) return 'Ustawienia';
   if (pathname.startsWith('/panel/dokumenty')) return 'Moje dokumenty';
-  if (pathname.startsWith('/panel/serwery')) return 'Serwery';
+  if (pathname.startsWith('/panel/kartoteka')) return 'Kartoteka (MDT)';
   return 'PoliceOS';
 }
 

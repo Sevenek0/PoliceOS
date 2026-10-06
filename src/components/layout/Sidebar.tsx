@@ -50,6 +50,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       <nav className="flex-1 overflow-y-auto px-2 py-3" onClick={onNavigate}>
         <NavItem to="/panel" icon="layout-dashboard" label="Pulpit" end />
+        <NavItem to="/panel/kartoteka" icon="database" label="Kartoteka (MDT)" />
         <NavItem to="/panel/dokumenty" icon="folder-clock" label="Moje dokumenty" />
 
         <NavSection title="Baza wiedzy">
